@@ -1,13 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <% include ./partials/header.ejs %>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <title>Document</title>
 </head>
 <body>
-    <h3>Hola mundo</h3>
+    <div>
+        <div class="alert alert-success" role="alert" style="text-align: center">ingresa el texto que desas analizar</div>
+        <textarea class="form-control" rows="3"></textarea>
+        <button type="button" class="btn btn-info" >analizar</button>        
+    </div>
+    <div>
+        <table class="table table-striped">            
+                <tr>
+                        <td>CSS</td>
+                        <td>20</td>
+                        <td>16:00 - 20:00</td>
+                      </tr>
+                      
+                      <tr>
+                        <td>HTML</td>
+                        <td>20</td>
+                        <td>16:00 - 20:00</td>
+                      </tr>
+                      
+                      <tr>
+                        <td>Dreamweaver</td>
+                        <td>60</td>
+                        <td>16:00 - 20:00</td>
+                      </tr>
+        </table>
+    </div>
+    
 </body>
+
 </html>

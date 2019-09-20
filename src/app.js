@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express();
 const path = require('path');
+const tocss = require('style-css');
+const css = tocss();
 
 //configuracion
 
