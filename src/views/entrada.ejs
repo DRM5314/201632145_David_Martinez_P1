@@ -1,37 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <% include ./partials/header.ejs %>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<head>  
+    <%include   partials/header.ejs%>
+    <link rel="stylesheet" href="estiloPrincipal.css">
 </head>
 <body>
-    <div>
-        <div class="alert alert-success" role="alert" style="text-align: center">ingresa el texto que desas analizar</div>
-        <textarea class="form-control" rows="3"></textarea>
-        <button type="button" class="btn btn-info" >analizar</button>        
+  <header>
+      <h2 class="a">Bienvenido al sistema</h2>
+  </header>
+  <section>
+    <div >
+      <textarea name="textArea" id="areaTexto" cols="120" rows="15" class="textArea"></textarea>    
+      <button type="button" class="btn btn-primary btn-lg btn-block" onclick="mostrarDatos()">Analizar</button>
+      <button type="button" class="btn btn-default btn-lg btn-block" onclick="borrarTexto()">Limpiar area</button>
     </div>
-    <div>
-        <table class="table table-striped">            
-                <tr>
-                        <td>CSS</td>
-                        <td>20</td>
-                        <td>16:00 - 20:00</td>
-                      </tr>
-                      
-                      <tr>
-                        <td>HTML</td>
-                        <td>20</td>
-                        <td>16:00 - 20:00</td>
-                      </tr>
-                      
-                      <tr>
-                        <td>Dreamweaver</td>
-                        <td>60</td>
-                        <td>16:00 - 20:00</td>
-                      </tr>
-        </table>
-    </div>
-    
+  </section>
 </body>
-
+<% include partials/footer.ejs %>
+  <script src="jsPromise.js"></script>
 </html>
