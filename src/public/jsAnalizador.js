@@ -1,168 +1,142 @@
-//contenido capturado desde html con el cual se interactua
-//se inician los arreglos que contendran los caracteres aceptados
+class analizador {
+    fase1 = "s,h,f,r,e,d,m,v,b,c";
+    fase2 = "i,a,n,e,o";// si
+    fase3 = "n,c,d,l,t,c,e,r,o";
+    fase4 = "o,e,s,i,n,l,d";// sino
+    fase5 = "r,o,n,m,t,a,e";// hacer, falso
+    fase6 = "a,o,r,b,d";// cadena, entero
+    fase7 = "l,a,n,e";// decimal
+    fase8 = "s,e,o,r";// mientras, variable, booleano
+    fase9 = "o";// verdadero
+    fase10 = "a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z";
+    fase11 = "0,1,2,3,4,5,6,7,8,9";
+    fase12 = "(,),{,},[,]";
+    fase13 = "=";
+    fase14 = "=,>,<";
+    fase15 = "+,-,/,%,*,>,<";
+    fase16 = "\",;";
 
-var abecedario = "a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z";
-var numero = "0,1,2,3,4,5,6,7,8,9";
-var simbolo ="<,>,+,-,*,@,/,{,},[,],(,)";
-
-//separa la cadena de texto y los guarda en arreglos
-var tipoIdentificador = separador(abecedario);
-var tipoNumero = separador(numero);
-var tipoSimbolo = separador(simbolo);
-//variable la cual se utilizara para los errores
-var error = "Error: ";
-//funcion que separa en arreglo cada uno de los caracteres aceptados
-function separador(tipo){
-    var simbolos = tipo.split(",");
-    return simbolos;
-}
-/*
-    Clase que ayuda a crear un objeto el cual tiene dos metodos, los cuales utiliza una
-    funcion comparar la cual verifica que este en los caracteres aceptados, los cuales nos
-    devolvera y dira de que tipo es y tambien devuelve un nombre.
-    tipo 1 sera identificador, tipo 2 sera numero tipo 3 sera simbolo, tipo 4 sera error
- */
-class rectificadorTipo{
-    verificarTipo(letra){
-        var retorno = 0;
-        var comparar = letra.toLowerCase();  
-        if (comparador(tipoIdentificador,comparar)) {
-            retorno = 1;
-        } else if(comparador(tipoNumero, comparar)){
-            retorno = 2;
-        } else if(comparador(tipoSimbolo,comparar)){
-            retorno = 3;
-        }else if(comparar!=0){
-            retorno = 4;
+    aceptaciones = "si,sino,hacer,falso,cadena,entero,decimal,mientras,variable,booleano,verdadero";
+    verificadorCaracter(arreglo, caracter) {
+        for (let i = 0; i < arreglo.length; i++) {
+            if (arreglo[i] == caracter) {
+                return true;
+            };
         }
-        this.retorno = retorno;
-        return retorno;
     }
-    nombreTipo(){
-        var tipo = 0;
-        switch (this.retorno){
-            case 1:
-                tipo = "Identificador: \t";
-                break;
-            case 2:
-                tipo = "Numero: \t";
-                break;
-            case 3:
-                tipo = "Simbolo: \t";
-                break;
+    verificadorReservada(texto, a) {
+        let separador = ((fase) => { return fase.split(',') });
+        let aceptado = ((cadena, caracter) => { for (let c = 0; c < cadena.length; c++) { if (cadena[c] == caracter) return cadena[c]; } });
+        reservadas = separador(aceptaciones);
+        flotante = "", entrada = a;
+        let i = a;
+        let fases = [fase1, fase2, fase3, fase4, fase5, fase6, fase7, fase8, fase9];
+        for (i; i < texto.length; i++) {
+            if (verificadorCaracter(fases[i - entrada], texto[i])) {
+                flotante += aceptado(fases[i - entrada], texto[i]);
+            } else { break; }
         }
-        return tipo;
-        
+        for (let j = 0; j < reservadas.length; j++) {
+            if (!verificadorCaracter(fase11.split(','), texto[i]) && flotante == reservadas[j] && !verificadorCaracter(fase10.split(','), texto[i])) return flotante + ',' + (i - 1);
+        } return false;
     }
-}
-
-/*
-    Funcion que recibe como parametro la linea de texto ingresada desde el html, el cual
-    recibe el texto y lo separa por espacios, agrupando en un arreglo los cuales contendran
-    el texto ingresado, se toma el primer caracter de cada arreglo para saber con que tipo inicia, 
-    luego se crea una variable la cual ira concatenando los caracteres para luego poder agregarlo 
-    al listado de palabras reconocidas, si durante el proceso se encuentra un caracter no aceptado
-    entonces se procede a capturar toda la palabra ingresada y lo tomara como un error    
-*/
-function analizador(texto){
-    var separadorEspacio = texto.split(" ");    
-    for (let i = 0; i < separadorEspacio.length; i++) {
-        let verificador = new rectificadorTipo();
-        var tipo = verificador.verificarTipo(separadorEspacio[i].charAt(0));//verifica a que tipo de inicio tiene
-        var concatenador = "";
-        var palabraActual = separadorEspacio[i];        
-        var nombreIdentificador = verificador.nombreTipo();
-        var errorSalida = false;
-        if(tipo!=0){
-            for (let j = 0; j < palabraActual.length; j++) {
-            var caracterActual = palabraActual.charAt(j);
-                switch(tipo){
-                    case 1:{                                            
-                            if (comparador(tipoIdentificador,caracterActual)) {
-                                concatenador += caracterActual;
-                            } else if(comparador(tipoNumero,caracterActual)){
-                                concatenador += caracterActual;
-                            }else{
-                                concatenador = palabraActual;
-                                nombreIdentificador = error;
-                                errorSalida = true;
-                            }                                        
+    analizadorIdentificador(texto, a) {
+        let flotante = "", i;
+        if (texto != "" && texto != null) {
+            let fase101 = fase10.split(",");
+            if (verificadorCaracter(fase101, texto[a])) {
+                for (i = a; i < texto.length; i++) {
+                    if (verificadorCaracter(fase101, texto[i])) flotante += texto[i]; else {
+                        let fase11s = fase11.split(",");
+                        if (verificadorCaracter(fase11s, texto[i])) flotante += texto[i]; else return flotante + ',' + (i - 1);
                     }
-                    break;
-                    case 2:{                        
-                            if(comparador(tipoNumero,caracterActual)){
-                                concatenador += caracterActual;
-                            }else{
-                                concatenador = palabraActual;
-                                nombreIdentificador = error;
-                                errorSalida = true;
-                            }                                                   
-                    }
-                    break;
-                    case 3:{
-                            if (comparador(tipoSimbolo,caracterActual)) {
-                                concatenador += caracterActual;
-                            }else{
-                                concatenador = palabraActual;
-                                nombreIdentificador = error;
-                                errorSalida = true;
-                            }                                                                  
-                    }         
-                    break;
-                    case 4:{
-                        concatenador = palabraActual;
-                        nombreIdentificador = error;
-                        errorSalida = true;
-                    }     
-                    break;  
                 }
-                if (errorSalida) break;                    
+            } else return false;
+        } return flotante + ',' + (i - 1);
+    }
+    analizadorfase11(texto, a) {
+        let fase11s = fase11.split(",");
+        let flotante = "", i = a;
+        for (i; i < texto.length; i++) {
+            if (verificadorCaracter(fase11s, texto[i])) flotante += texto[i]; else { if (flotante.length > 0 && texto[i] != '.') return flotante + ',' + (i - 1); else return false; }
+        } if (a == flotante.length) return false;
+        return flotante + ',' + (i - 1);
+    }
+    analizadorFlotante(texto, a) {
+        let i, flotante = "", salida, j;
+        for (i = a; i < texto.length; i++) {
+            if (verificadorCaracter(fase11.split(','), texto[i])) flotante += texto[i]; else {
+                if (texto[i] == '.') break; else return false;
             }
-            agregar(concatenador,nombreIdentificador);
-            this.concatenador = "";
-            this.tipo = 0;
+        }
+        if ((i + 1) != texto.length) i++;
+        if (verificadorCaracter(fase11.split(','), texto[i]) && verificadorCaracter(fase11.split(','), texto[i - 2])) {
+            flotante += texto[i - 1], flotante += texto[i];
+            for (j = (i + 1); j < texto.length; j++) {
+                if (verificadorCaracter(fase11.split(','), texto[j])) flotante += texto[i]; else {
+                    if (verificadorCaracter(fase10.split(','), texto[j]) || texto[j] == '.') return false; else return flotante + ',' + (j - 1);
+                }
+            }
+            return flotante + ',' + (j - 1);
+        } else return false;
+    }
+    analizadorOperador(texto, a) {
+        a, flotante = "";
+        verificador = (() => { if (a <= texto.length) a++; return true; });
+        if (texto[a] == fase13) {
+            flotante += texto[a];
+            if (verificador() && verificadorCaracter(fase14, texto[a])) {
+                flotante += texto[a] + ',' + a;
+                return flotante;
+            } else return flotante + ',' + (a - 1);//se resta 1 ya que operador() suma uno y sino entra entonces debe restarle
+        } else if (verificadorCaracter(fase15, texto[a])) return texto[a] + ',' + a; else return false;
+    }
+    analizadorAgrupacion(texto, a) {
+        if (verificadorCaracter(fase12.split(','), texto[a])) return texto[a] + ',' + (a); else return false;
+    }
+    analizadorSigno(texto, a) {
+        if (verificadorCaracter(fase16.split(','), texto[a])) return texto[a] + ',' + (a); else return false;
+    }
+    salida(texto) {
+        let retorno = texto;
+        let salida = retorno.substring(retorno.indexOf(',') + 1, retorno.length);
+        return salida;
+    }
+    static analizar(entrada) {
+        preservada, pidentificador, pentero, pflotante, poperador, pagrupacion, psigno, error;
+        reservadaa;
+        if (entrada.length > 0) {
+            for (let i = 0; i < entrada.length; i++) {
+                if (entrada[i] != ' ') {
+                    reservadaa = false;
+                    preservada = verificadorReservada(entrada, i);
+                    if (preservada != false) {
+                        alert('reservada ' + preservada);
+                        i = salida(preservada);
+                        reservadaa = true;
+                    } else {
+                        pidentificador = analizadorIdentificador(entrada, i);
+                        if (pidentificador != false && !reservadaa) { alert('identificador ' + pidentificador); i = salida(pidentificador); } else {
+                            pentero = analizadorfase11(entrada, i);
+                            if (pentero != false) { alert('entero: ' + pentero); i = salida(pentero); } else {
+                                pflotante = analizadorFlotante(entrada, i);
+                                if (pflotante != false) { alert('flotante' + pflotante); i = salida(pflotante); } else {
+                                    poperador = analizadorOperador(entrada, i);
+                                    if (poperador != false) { alert("operador: " + poperador); i = salida(poperador) } else {
+                                        pagrupacion = analizadorAgrupacion(entrada, i);
+                                        if (pagrupacion != false) { alert("agrupacion: " + pagrupacion); i = salida(pagrupacion); } else {
+                                            psigno = analizadorSigno(entrada, i);
+                                            if (psigno != false) { alert("Signo: " + psigno); i = salida(psigno); } else {
+                                                alert('error: ' + entrada[i]);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
-}
-/*
-    Agrega codigo al html en forma de listado, agrega que tipo es lo ingresado
-    y luego la cadena de caracteres o caracter ingresado, si es un error entonces
-    lo inserta color rojo
-*/
-function agregar(concatenador,tipo){    
-    if(tipo!=error){
-        historial.innerHTML = historial.innerHTML+ "<li>" + tipo +" "+ concatenador + "</li>";
-    }else{
-        historial.innerHTML = historial.innerHTML+ "<li style=\"color: brown\">" + tipo +" "+ concatenador + "</li>";
-    }
-}
-/*
-    Recibe el caracter a comparar con los arreglos que se crearon al inicio 
-    para saber si este es aceptado, retornando un boleano
-*/
-function comparador(tipo,variable){
-    var retorno = false;
-    variable = variable.toLowerCase();
-    for (let i = 0; i < tipo.length; i++) {
-        if(variable==tipo[i]){
-            retorno = true;
-            break;
-        }
-    }
-    return retorno;
-}
-/*
-    Manda a llmar a la funcion analizador la cual inicial el reconociminento
-    el cual manda un parametro, el cual es el texto ingresado desde el html
-*/
-function funcion (){    
-    analizador(entrada.value);
-}
-//Borra lo contenido en la lista
-function borrarLista(){
-    historial.innerHTML =" ";
-}
-//borra lo que este en campo de texto
-function borrarTexto(){
-    entrada.value = "";
 }

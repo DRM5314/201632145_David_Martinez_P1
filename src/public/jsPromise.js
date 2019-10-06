@@ -1,7 +1,7 @@
-
-
+//import './jsAnalizador';
 var entrada = document.getElementById("areaTexto");
 var salida = document.querySelector("#areaTexto");
+var lisado = document.getElementById("listado");
 
 function separadorSaltos(texto){
     let salida = texto.split("\n");
@@ -27,7 +27,7 @@ function mostrarDatos(){
     salida.forEach(element=>{
         let promesaFanatasma = new Promise((resolve)=>{
             setTimeout(() => {
-                resolve(element);
+                resolve((element));
             },tiempo);
             tiempo+=2000;
         });        
@@ -36,13 +36,7 @@ function mostrarDatos(){
     });
     promesas.forEach(element => {
         element.then((value)=>{
-            console.log(value);
+            lisado.innerHTML=lisado.innerHTML+"<li>"+value+"</li>";
         });
     });
     }
-
-
-
-function borrarTexto(){ 
-    entrada.value="";
-}
