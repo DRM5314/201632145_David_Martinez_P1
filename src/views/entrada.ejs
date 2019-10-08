@@ -3,6 +3,7 @@
 <head>  
     <%include   partials/header.ejs%>
     <link rel="stylesheet" href="estiloPrincipal.css">
+    <title>Analizador</title>
 </head>
 <body>
   <header>
@@ -10,16 +11,18 @@
   </header>
   <section>
       <%include partials/nav.ejs%>
-      <button type="button" class="btn btn-primary btn-lg btn-block" >Abrir archivo</button>
+      <input id="fileInput" type="file" size="50" onchange="processFiles(this.files)">
       <textarea name="textoArea" id="textoArea" cols="120" rows="15" class="textArea"></textarea>    
       <button type="button" class="btn btn-primary btn-lg btn-block" onclick="postText()">Analizar</button>
-      <button type="button" class="btn btn-primary btn-lg btn-block" onclick="">Solicitar Token</button>
-      <button type="button" class="btn btn-default btn-lg btn-block" onclick="borrarTexto()">Limpiar area</button>
+      <button type="button" class="btn btn-primary btn-lg btn-block" onclick="getData()">Solicitar Token</button>
+      <button type="button" class="btn btn-default btn-lg btn-block" onclick="borrarTexto()">Limpiar Memoria</button>
       <li class="list-group-item list-group-item-success" style="text-align: center" id="listado"></li>
     </div>
   </section>
 </body>
 <% include partials/footer.ejs %>
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>  
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="fronted.js"></script>
+<script src="jsAnalizador.js"></script>
+<script src="texto.js"></script>
 </html>

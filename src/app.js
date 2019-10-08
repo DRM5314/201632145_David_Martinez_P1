@@ -5,7 +5,7 @@ const path = require('path');
 
 //configuracion
 
-app.set('port',8765);
+app.set('port',5050);
 app.set('views',path.join(__dirname,'views'));
 app.set('view engine','ejs');
 

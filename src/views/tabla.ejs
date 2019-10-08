@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<%include ./partials/header.ejs%>
+<title>Tabla</title>
+<link rel="stylesheet" href="estiloPrincipal.css">
+<body>
+    <h2 class="a">Datos recopilados del analizador</h2>
+  <%include partials/nav.ejs%>
+  <button onclick="getData()">Mostrar datos</button>
+  <button onclick="borrarTabla()">Borrar tabla</button>
+  <section>
+    <table class="table table-bordered table-dark" >
+      <thead>
+        <tr>
+          <th scope="col">Tipo</th>
+          <th scope="col">Dato</th>
+          <th scope="col">Fila</th>
+          <th scope="col">Columna</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody">
+
+      </tbody>
+    </table>
+  </section>
+</body>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="tabla.js"></script>
+</html>
