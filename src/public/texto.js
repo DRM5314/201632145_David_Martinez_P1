@@ -1,4 +1,4 @@
-var salida="";
+var salida = "";
 function processFiles(files) {
     var file = files[0];
 
