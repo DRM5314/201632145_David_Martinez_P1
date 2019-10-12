@@ -1,6 +1,6 @@
 const path = require('path');
 //funcion que analiza el texto 
-const analizar = require('/media/david/01B9B45E763867BC/Git lenguajes (Proyectos)/proyecto1/src/public/jsAnalizador');
+const analizar = require(path.join(__dirname,'../public/jsAnalizador.js'));
 
 const { Router } = require('express');
 const expres = require('express');
