@@ -29,6 +29,13 @@ let operador2 = "<>=";
 let operadores = "<>=+-*/%"
 let transiciones = [letra, numero, punto, agrupacion, operador1, operador2, operadores];
 let entrada = document.getElementById('textoEtrada');
+function isReserveda(concatenacion){
+    let reservadas = ["si","sino","hacer","falso","cadena","entero","decimal","mientras","variable","booleano","verdadero"];
+    for (let i = 0; i < reservadas.length; i++) {
+        if(concatenacion==reservadas[i])return true;        
+    }
+    return false;
+}
 function aceptado(matriz, caracter) {
     for (let i = 0; i < matriz.length; i++) {
         if (matriz[i] == caracter) return true;
@@ -65,9 +72,9 @@ function tipoToken(transicion) {
     }
 }
 function analizar() {
-    let posicionEstado = 0, validar, transicion, concatenacion = "", acptadas = "";
+    let posicionEstado = 0, validar, transicion, concatenacion = "", acptadas = "",tipore;
     for (let i = 0; i < entrada.value.length; i++) {
-        if (entrada.value[i] == " " && concatenacion.length > 0) { posicionEstado = 0; i++; acptadas += tipoToken(transicion) + validar + " " + concatenacion + '\n'; concatenacion = ""; }
+        if (entrada.value[i] == " " && concatenacion.length > 0) { if(isReserveda(concatenacion))tipore='reservada';else tipore=tipoToken(transicion);posicionEstado = 0; i++; acptadas += tipore + validar + " " + concatenacion + '\n'; concatenacion = ""; }
         if (i == entrada.value.length) break;
         transicion = posTransicion(entrada.value[i]);
         //console.log('en estado' + posicionEstado);        
@@ -111,7 +118,7 @@ function analizar() {
         }
         concatenacion += entrada.value[i];        
     }
-    if (concatenacion.length > 0) { acptadas += tipoToken(transicion) + validar + " " + concatenacion + '\n'; }
+    if (concatenacion.length > 0) { if(isReserveda(concatenacion))tipore='reservada';acptadas += tipore + validar + " " + concatenacion + '\n'; }
     var terminada = acptadas.split('/n');
     for (let j = 0; j < terminada.length; j++) {
         console.log(terminada[j]);
